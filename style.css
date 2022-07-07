@@ -4,6 +4,10 @@
     font-family: cursive;
 }
 
+body{
+    background-color: black;
+}
+
 .background{
     height: 100vh;
     display: flex;

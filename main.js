@@ -36,7 +36,35 @@ tiles.forEach((tile,index) =>{
     tile.addEventListener('click',() => userAction(tile,index));
 });
 
-reset.addEventListener('click',resetBoard);
+
+
+
+function handleResultValidation() {
+    let roundWon = false;
+    for (let i =0; i <=7; i++){
+        const winCondition = winningConditions[i];
+        const a = board[winCondition[0]];
+        const b = board[winCondition[1]];
+        const c = board[winCondition[2]];
+        if (a === '' || b === '' || c === ''){
+            continue;
+        }
+        if (a === b && b === c){
+            roundWon = true;
+            break;
+        }
+    }
+    if (roundWon){
+        announce(currentPlayer === 'X' ? PLAYERX_WON : PLAYERO_WON );
+        isGameActive = false;
+        return;
+    }
+
+    if(!board.includes('')){
+        announce(TIE);
+    }
+}
+
 
 
 const announce = (type) => {
@@ -52,6 +80,19 @@ const announce = (type) => {
     }
     announcer.classList.remove('hide');
 };
+
+const isValidAction = (tile) => {
+    if (tile.innerText === 'X' || tile.innerText === 'O'){
+        return false;
+    }
+
+    return true;
+};
+
+
+const updateBoard = (index) => {
+    board[index] = currentPlayer;
+}
 
 
 const changePlayer = () =>{
@@ -71,3 +112,20 @@ const userAction = (tile,index) => {
         changePlayer();
     }
 }
+
+const resetBoard = () => {
+    board = ['','','','','','','','',''];
+    isGameActive = true;
+    announcer.classList.add('hide');
+
+    if (currentPlayer = 'O'){
+        changePlayer();
+    }
+
+    tiles.forEach(tile => {
+        tile.innerText = '';
+        tile.classList.remove('playerX');
+        tile.classList.remove('playerO');
+    });
+}
+reset.addEventListener('click',resetBoard);
