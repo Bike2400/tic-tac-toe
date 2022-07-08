@@ -15,7 +15,7 @@ const announcer = document.querySelector('.announcer');
 
 
 
-/* How the board looks
+/* Indexes within the board
     0 1 2
     3 4 5
     6 7 8
@@ -32,6 +32,12 @@ const winningConditions = [
     [2,4,6],
 ];
 
+/*
+    Event listener to every single tile
+    When a tile is clicked the userAction function is called with a reference to the specific tile and its index
+    The tile changes to either X or O
+    While the index updates the in-memory saved array
+*/
 tiles.forEach((tile,index) =>{
     tile.addEventListener('click',() => userAction(tile,index));
 });
@@ -89,12 +95,12 @@ const isValidAction = (tile) => {
     return true;
 };
 
-
+// Allows you inpute X or O depending on the player
 const updateBoard = (index) => {
     board[index] = currentPlayer;
 }
 
-
+// To change players when the other has made his move
 const changePlayer = () =>{
     playerDisplay.classList.remove(`player${currentPlayer}`);
     currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
@@ -102,7 +108,7 @@ const changePlayer = () =>{
     playerDisplay.classList.add(`player${currentPlayer}`)
 }
 
-
+// To allow players to make a move during their turn
 const userAction = (tile,index) => {
     if(isValidAction(tile) && isGameActive) {
         tile.innerText = currentPlayer;
